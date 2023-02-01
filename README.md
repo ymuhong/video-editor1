@@ -1,4 +1,4 @@
-# Instaglitch
+# Initch
 
 Free to use online glitch art editor. Made using React.js, TypeScript, MobX and [fxGlue](https://github.com/mat-sz/fxGlue) (a simple WebGL library designed for image processing/effects).
 
