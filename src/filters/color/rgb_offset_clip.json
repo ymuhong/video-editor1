@@ -1,0 +1,31 @@
+{
+  "id": "rgb_offset_clip",
+  "name": "RGB offset (clip)",
+  "settings": [
+    {
+      "id": "roffset",
+      "key": "iROffset",
+      "type": "offset",
+      "name": "Red offset",
+      "defaultValue": [0, 0],
+      "color": "#ff0000"
+    },
+    {
+      "id": "goffset",
+      "key": "iGOffset",
+      "type": "offset",
+      "name": "Green offset",
+      "defaultValue": [-0.1, 0],
+      "color": "#00ff00"
+    },
+    {
+      "id": "boffset",
+      "key": "iBOffset",
+      "type": "offset",
+      "name": "Blue offset",
+      "defaultValue": [0, 0],
+      "color": "#0000ff"
+    }
+  ],
+  "fragmentShader": "@use wrap\n\nvec4 offset(in vec2 uv, in vec2 off) {\n  vec2 p = vec2(uv.x - off.x, uv.y + off.y);\n  return texture2D(iTexture, vec2(uv.x - off.x, uv.y + off.y)) * clip(p);\n}\n\nvoid main() {\n  vec2 uv = gl_FragCoord.xy / iResolution;\n\n  vec2 r = vec2(uv.x - iROffset.x, uv.y + iROffset.y);\n  vec2 g = vec2(uv.x - iGOffset.x, uv.y + iGOffset.y);\n  vec2 b = vec2(uv.x - iBOffset.x, uv.y + iBOffset.y);\n\n  vec4 col;\n  col.r = offset(uv, iROffset).r;\n  col.g = offset(uv, iGOffset).g;\n  col.b = offset(uv, iBOffset).b;\n  col.a = (offset(uv, iROffset).a + offset(uv, iGOffset).a + offset(uv, iBOffset).a) / 3.0;\n\n  gl_FragColor = col;\n}"
+}
